@@ -24,5 +24,19 @@ const sendTestMessageController = (req, res, next) => {
     return next({ message: error.message, status: 500 });
   }
 };
+const sendTestMessageGenericController = (req, res, next) => {
+  try {
+    const { io } = require('../app');
+    io.emit(`test-connection`, 'Test Generic message from server!');
+    return res.status(200).json({ message: 'Message Generic test sent' });
+  } catch (error) {
+    console.log(error.message);
+    return next({ message: error.message, status: 500 });
+  }
+};
 
-module.exports = { sendMessageController, sendTestMessageController };
+module.exports = {
+  sendMessageController,
+  sendTestMessageController,
+  sendTestMessageGenericController,
+};

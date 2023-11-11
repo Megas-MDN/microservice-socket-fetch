@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Tester connection</title>
+    <style>
+      body {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          Helvetica, Arial, sans-serif;
+      }
+      footer {
+        margin-top: auto;
+      }
+      .bb {
+        border: 1px solid red;
+      }
+      #form {
+        margin: 0 auto;
+        background: rgba(0, 0, 0, 0.15);
+        padding: 0.25rem;
+        display: flex;
+        box-sizing: border-box;
+        backdrop-filter: blur(10px);
+        height: 10%;
+        width: 100%;
+        justify-content: space-between;
+      }
+      #input {
+        border: none;
+        padding: 0 1rem;
+        border-radius: 2rem;
+        margin: 0.2rem;
+        max-width: 50%;
+      }
+      #input:focus {
+        outline: none;
+      }
+      #form > div > button {
+        background: #333;
+        border: none;
+        padding: 0 1rem;
+        margin: 0.2rem;
+        border-radius: 3px;
+        outline: none;
+        color: #fff;
+        font-size: 0.8rem;
+      }
+
+      #messages {
+        list-style-type: none;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+      }
+      #messages > li {
+        padding: 0.5rem 1rem;
+        font-size: 12px;
+      }
+      #messages > li:nth-child(odd) {
+        background: #efefef;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100">
+    <h1 class="text-3xl m-2">Make your test request</h1>
+    <main
+      class="main flex flex-col p-1 max-h-md overflow-auto h-[500px] w-[500px] max-w-[95%] bg-gray-200 items-center gap-1"
+    >
+      <form id="form" action="" class="m-1">
+        <input id="input" autocomplete="off" />
+        <div class="flex gap-1 h-full">
+          <button type="submit">Send</button>
+          <button id="request" type="button">Resquest</button>
+        </div>
+      </form>
+      <ul id="messages" class="main-list max-h-[400px] overflow-auto"></ul>
+    </main>
+    <footer class="flex flex-col items-center gap-2 p-2 pb-4 pt-4">
+      <h3>Go to the github project</h3>
+      <button
+        class="bg-gray-800 hover:bg-gray-900 text-white font-bold py-3 px-8 rounded-full"
+        onclick="window.open('https://github.com/megas-mdn/microservice-socket-fetch')"
+      >
+        <i class="fa-brands fa-github fa-2xl"></i>
+      </button>
+    </footer>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+
+      const form = document.getElementById('form');
+      const input = document.getElementById('input');
+      const request = document.getElementById('request');
+      const messages = document.getElementById('messages');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (input.value) {
+          socket.emit('test-connection', input.value);
+          input.value = '';
+        }
+      });
+      request.addEventListener('click', () => {
+        const url = document.baseURI.replace('/tester', '');
+        console.log(url, '<-- Current base URL');
+        fetch(url + '/api/v1/send/test');
+      });
+      socket.on('test-connection', (msg) => {
+        const item = document.createElement('li');
+        item.textContent = msg;
+        messages.insertBefore(item, messages.firstChild);
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+    </script>
+  </body>
+</html>

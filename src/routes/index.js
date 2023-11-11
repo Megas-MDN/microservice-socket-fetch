@@ -8,7 +8,7 @@ const BASE_URL = '/api/v1';
 routes.use(`${BASE_URL}/check`, internalRoutes);
 routes.use(`${BASE_URL}/send`, sendMessageRoutes);
 
-const avaliableRoutes = [`${BASE_URL}/check`, `${BASE_URL}/send`];
+const avaliableRoutes = ['/tester', `${BASE_URL}/check`, `${BASE_URL}/send`];
 routes.use((req, res, next) => notImplemented(req, res, next, avaliableRoutes));
 routes.use(errorHandler);
 module.exports = routes;
