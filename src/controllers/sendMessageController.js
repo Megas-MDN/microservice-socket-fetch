@@ -17,7 +17,9 @@ const sendTestMessageController = (req, res, next) => {
   try {
     const { id } = req.params;
     const { io } = require('../app');
-    io.emit(`test-connection-${id}`, { message: 'Test message from server!' });
+    io.emit(`test-connection-${id}`, {
+      message: 'Test message api/v1/send/test/' + id,
+    });
     return res.status(200).json({ message: 'Message test sent', id });
   } catch (error) {
     console.log(error.message);
@@ -27,7 +29,7 @@ const sendTestMessageController = (req, res, next) => {
 const sendTestMessageGenericController = (req, res, next) => {
   try {
     const { io } = require('../app');
-    io.emit(`test-connection`, 'Test Generic message from server!');
+    io.emit(`test-connection`, 'Test Generic message api/v1/send/test/');
     return res.status(200).json({ message: 'Message Generic test sent' });
   } catch (error) {
     console.log(error.message);

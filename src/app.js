@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 // rotas
-app.get('/tester', (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(join(__dirname, 'index.html'));
 });
 app.use(routes);
@@ -26,7 +26,7 @@ const io = new Server(server, {
     credentials: true,
   },
 });
-const test = 'Test';
+
 io.on('connection', (socket) => {
   console.log('Socket id :: %s ::', socket.id);
   socket.on('test-connection', (msg) => {
@@ -38,4 +38,4 @@ io.on('connection', (socket) => {
   });
 });
 
-module.exports = { io, server, test };
+module.exports = { io, server };

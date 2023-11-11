@@ -115,13 +115,19 @@
         }
       });
       request.addEventListener('click', () => {
-        const url = document.baseURI.replace('/tester', '');
+        const url = document.baseURI;
         console.log(url, '<-- Current base URL');
-        fetch(url + '/api/v1/send/test');
+        fetch(url + 'api/v1/send/test');
       });
       socket.on('test-connection', (msg) => {
         const item = document.createElement('li');
         item.textContent = msg;
+        messages.insertBefore(item, messages.firstChild);
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+      socket.on('test-connection-1', (msg) => {
+        const item = document.createElement('li');
+        item.textContent = msg.message + ' :: Only this request :1';
         messages.insertBefore(item, messages.firstChild);
         window.scrollTo(0, document.body.scrollHeight);
       });
