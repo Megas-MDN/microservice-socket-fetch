@@ -33,7 +33,7 @@ io.on('connection', (socket) => {
     io.emit('test-connection', msg);
   });
   socket.on('disconnect', async (reason) => {
-    console.log(reason, `<::: ${socket.id} ::<`);
+    console.log(reason, `<::: ${socket.id}`);
     socket.leave();
   });
 });
